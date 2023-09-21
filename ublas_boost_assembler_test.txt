@@ -1,0 +1,14 @@
+ian@ian-Latitude-E7440:~$ g++ ublas_boost.s -o ublas_boosts
+ian@ian-Latitude-E7440:~$ ./ublas_boosts
+Multiplication of 
+[[   1   2]
+ [   3   4]]
+and 
+[[  -1   0]
+ [   0  -1]]
+is
+[[  -1  -2]
+ [  -3  -4]]
+finished computation at Thu Sep 21 23:56:48 2023
+elapsed time: 0.000128222s
+ian@ian-Latitude-E7440:~$ 
