@@ -1,0 +1,127 @@
+ian@ian-Latitude-E7440:~$ g++ ublas_boost.cpp -o ublas_boost
+ian@ian-Latitude-E7440:~$ ./ublas_boost
+Multiplication of 
+[[   1   2]
+ [   3   4]]
+and 
+[[  -1   0]
+ [   0  -1]]
+is
+[[  -1  -2]
+ [  -3  -4]]
+finished computation at Thu Sep 21 23:16:13 2023
+elapsed time: 0.000134461s
+ian@ian-Latitude-E7440:~$ g++ ublas_boost.cpp -o ublas_boost
+ian@ian-Latitude-E7440:~$ ./ublas_boost
+Multiplication of 
+[[   1   2]
+ [   3   4]]
+and 
+[[  -1   0]
+ [   0  -1]]
+is
+[[  -1  -2]
+ [  -3  -4]]
+finished computation at Thu Sep 21 23:21:26 2023
+elapsed time: 0.000103138s
+ian@ian-Latitude-E7440:~$ cat ublas_boost.cpp
+//Edited by Ian Martin Ajzenszmidt of Melbourne Australia to include chrono and date and time
+#include <boost/numeric/ublas/matrix.hpp>
+#include <iomanip>
+#include <iostream>
+#include <algorithm>
+#include <ctime>
+#include <chrono>
+using namespace boost::numeric::ublas;
+using namespace std;
+
+// A custom, more pretty way to print matrices
+std::ostream &operator<<(std::ostream &Str, matrix<double> const &v)
+{
+	for (int i = 0; i < v.size1(); i++)
+	{
+		Str << ((i == 0) ? "[[" : " [");
+		for (int j = 0; j < v.size2(); j++)
+		{
+			Str << setw(4);
+			Str << v(i, j);
+			Str << setw(0);
+		}
+		Str << ((i == v.size1() - 1) ? "]]" : "]");
+		if (i != v.size1() - 1)
+			Str << endl;
+	}
+	return Str;
+}
+
+int main()
+{
+        auto start = std::chrono::system_clock::now();
+	matrix<double> A(2, 2);
+	A(0, 0) = 1;
+	A(0, 1) = 2;
+	A(1, 0) = 3;
+	A(1, 1) = 4;
+
+	matrix<double> B(2, 2);
+	B(0, 0) = -1;
+	B(0, 1) = 0;
+	B(1, 0) = 0;
+	B(1, 1) = -1;
+
+	matrix<double> C = prod(A, B);
+
+	cout << "Multiplication of " << endl
+		<< A << endl;
+	cout << "and " << endl
+		<< B << endl;
+	cout << "is" << endl;
+	cout << C << endl;
+   
+    // Some computation here
+    auto end = std::chrono::system_clock::now();
+ 
+    std::chrono::duration<double> elapsed_seconds = end-start;
+    std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+ 
+    std::cout << "finished computation at " << std::ctime(&end_time)
+              << "elapsed time: " << elapsed_seconds.count() << "s"
+              << std::endl;
+
+
+	return 0;
+}
+ian@ian-Latitude-E7440:~$ sloccount ublas_boost.cpp
+Have a non-directory at the top, so creating directory top_dir
+Adding /home/ian/ublas_boost.cpp to top_dir
+Categorizing files.
+Finding a working MD5 command....
+Found a working MD5 command.
+Computing results.
+
+
+SLOC	Directory	SLOC-by-Language (Sorted)
+53      top_dir         cpp=53
+
+
+Totals grouped by language (dominant language first):
+cpp:             53 (100.00%)
+
+
+
+
+Total Physical Source Lines of Code (SLOC)                = 53
+Development Effort Estimate, Person-Years (Person-Months) = 0.01 (0.11)
+ (Basic COCOMO model, Person-Months = 2.4 * (KSLOC**1.05))
+Schedule Estimate, Years (Months)                         = 0.09 (1.08)
+ (Basic COCOMO model, Months = 2.5 * (person-months**0.38))
+Estimated Average Number of Developers (Effort/Schedule)  = 0.10
+Total Estimated Cost to Develop                           = $ 1,236
+ (average salary = $56,286/year, overhead = 2.40).
+SLOCCount, Copyright (C) 2001-2004 David A. Wheeler
+SLOCCount is Open Source Software/Free Software, licensed under the GNU GPL.
+SLOCCount comes with ABSOLUTELY NO WARRANTY, and you are welcome to
+redistribute it under certain conditions as specified by the GNU GPL license;
+see the documentation for details.
+Please credit this data as "generated using David A. Wheeler's 'SLOCCount'."
+ian@ian-Latitude-E7440:~$ 
